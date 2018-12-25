@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <import resource="applicationContext-dao.xml"></import>
+
+    <context:component-scan base-package="com.itheima.service.impl" />
+
+    <bean  id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="*" propagation="REQUIRED"></tx:method>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--<bean id="logAop" class="com.itheima.controller.LogAop"></bean>-->
+
+    <aop:config>
+        <aop:pointcut id="pt" expression="execution(* com.itheima.service.impl.*.*(..))"/>
+        <!--<aop:pointcut id="pt1" expression="execution(* com.itheima.controller.*.*(..))"/>-->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pt"></aop:advisor>
+        <!--<aop:aspect id="as" ref="logAop">-->
+            <!--<aop:before method="logBefore" pointcut-ref="pt1"></aop:before>-->
+            <!--&lt;!&ndash;<aop:after-returning method="" pointcut-ref="pt1"></aop:after-returning>&ndash;&gt;-->
+            <!--&lt;!&ndash;<aop:after-throwing method="" pointcut-ref="pt1"></aop:after-throwing>&ndash;&gt;-->
+            <!--<aop:after method="logAfter" pointcut-ref="pt1"></aop:after>-->
+        <!--</aop:aspect>-->
+    </aop:config>
+    <!--
+        支持AOP的注解支持，AOP底层使用代理技术
+        JDK动态代理，要求必须有接口
+        cglib代理，生成子类对象，proxy-target-class="true" 默认使用cglib的方式
+    -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+</beans>

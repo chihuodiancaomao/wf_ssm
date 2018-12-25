@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.ProductDao">
+    <select id="findAll" resultType="Product">
+        SELECT * FROM product
+    </select>
+    <insert id="saveOne" parameterType="Product" >
+       insert into
+product(productNum,productName,cityName,departureTime,productPrice,productDesc,productStatus)
+values(#{productNum},#{productName},#{cityName},#{departureTime},#{productPrice},#{productDesc},#{productStatus})
+    </insert>
+</mapper>
+        <!--private String id; // 主键-->
+        <!--private String productNum; // 编号 唯一-->
+        <!--private String productName; // 名称-->
+        <!--private String cityName; // 出发城市-->
+        <!--private Date departureTime; // 出发时间-->
+        <!--private String departureTimeStr;-->
+        <!--private double productPrice; // 产品价格-->
+        <!--private String productDesc; // 产品描述-->
+        <!--private Integer productStatus; // 状态 0 关闭 1 开启-->
+        <!--private String productStatusStr;-->

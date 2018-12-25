@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.OrdersDao">
+    <resultMap id="OrdersMap" type="Orders">
+        <id  property="id" column="id"></id>
+        <result property="orderNum" column="orderNum"></result>
+        <result property="orderTime" column="orderTime"></result>
+        <result property="peopleCount" column="peopleCount"></result>
+        <result property="orderDesc" column="orderDesc"></result>
+        <result property="payType" column="payType"></result>
+        <result property="orderStatus" column="orderStatus"></result>
+        <association property="product" column="productId" javaType="Product"  select="com.itheima.dao.ProductDao.findById"></association>
+    </resultMap>
+    <resultMap id="OrdersMap1" type="Orders">
+        <id  property="id" column="id"></id>
+        <result property="orderNum" column="orderNum"></result>
+        <result property="orderTime" column="orderTime"></result>
+        <result property="peopleCount" column="peopleCount"></result>
+        <result property="orderDesc" column="orderDesc"></result>
+        <result property="payType" column="payType"></result>
+        <result property="orderStatus" column="orderStatus"></result>
+        <association property="product" column="productId" javaType="Product"  select="com.itheima.dao.ProductDao.findById"></association>
+        <association property="member"  column="memberId" javaType="Member" select="com.itheima.dao.MemberDao.findById" />
+        <collection property="travellers" column="id" ofType="Traveller" select="com.itheima.dao.TravellerDao.findById"/>
+    </resultMap>
+    <select id="findAll" resultMap="OrdersMap">
+        select * from orders
+    </select>
+    <select id="findById" resultMap="OrdersMap1">
+        select * from orders where id=#{id}
+    </select>
+</mapper>
+
+        <!--private String id;-->
+        <!--private String orderNum;-->
+        <!--private Date orderTime;-->
+        <!--private String orderTimeStr;-->
+        <!--private int orderStatus;-->
+        <!--private String orderStatusStr;-->
+        <!--private int peopleCount;-->
+        <!--private Product product;-->
+        <!--//    private List<Traveller> travellers;-->
+<!--//    private Member member;-->
+<!--private Integer payType;-->
+<!--private String payTypeStr;-->
+<!--private String orderDesc;-->
